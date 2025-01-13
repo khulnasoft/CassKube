@@ -1,6 +1,6 @@
-.PHONY: all install-mage
+.PHONY: all install-mage install-skopeo
 
-all: install-mage
+all: install-mage install-skopeo
 
 # Install Mage
 install-mage:
@@ -15,3 +15,8 @@ install-mage:
 	@mv /tmp/mage $GOPATH/bin/mage
 	@chmod +x $GOPATH/bin/mage
 	@echo "Mage installation complete."
+
+# Install Skopeo
+install-skopeo:
+	@echo "Checking for Skopeo..."
+	@which skopeo || (echo "Installing Skopeo..." && sudo apt-get install -y skopeo)
