@@ -1,0 +1,28 @@
+version:
+  major: 1
+  minor: 6
+  patch: 0
+  prerelease: "release"
+jenkins:
+  master:
+    plugins:
+      - configuration-as-code
+      - job-dsl
+      - plain-credentials
+      - github
+      - blueocean
+      - openstack-cloud
+      - pipeline-githubnotify-step
+      - timestamper
+      - simple-theme-plugin
+dev:
+  dseImages:
+    - khulnasoft/dse-server:6.8.4
+  ossImages:
+    - khulnasoft/cassandra-mgmtapi-3_11_7:v0.1.13
+  ubiDseImages:
+    - khulnasoft/dse-server:6.8.4-ubi7
+  ubiOssImages:
+    - khulnasoft/cassandra:3.11.6-ubi7
+  sharedImages:
+    - khulnasoft/cass-config-builder:1.0.3

@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: casskube
+subjects:
+- kind: ServiceAccount
+  name: casskube
+  namespace: "casskube"
+roleRef:
+  kind: ClusterRole
+  name: casskube-cluster-role
+  apiGroup: rbac.authorization.k8s.io

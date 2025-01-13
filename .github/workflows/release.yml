@@ -1,0 +1,23 @@
+name: Docker Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release_cass_operator:
+    name: Release CassKube
+    runs-on: ubuntu-latest
+    env:
+      # This is needed to workaround an issue where skopeo vomits out an
+      # error "mkdir /run/containers: permission denied" when performing
+      # login.
+      XDG_RUNTIME_DIR: /tmp
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login Skopeo DockerHub
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | skopeo login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin docker.io
+      - name: Publish to Dockerhub
+        run: |
+          ./scripts/push-release.sh

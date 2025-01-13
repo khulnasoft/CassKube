@@ -1,0 +1,14 @@
+# Default values
+clusterWideInstall: false
+serviceAccountName: casskube
+clusterRoleName: casskube-cr
+clusterRoleBindingName: casskube-crb
+roleName: casskube
+roleBindingName: casskube
+webhookClusterRoleName: casskube-webhook
+webhookClusterRoleBindingName: casskube-webhook
+deploymentName: casskube
+deploymentReplicas: 1
+defaultImage: "khulnasoft/casskube:1.6.0"
+imagePullPolicy: IfNotPresent
+imagePullSecret: ""

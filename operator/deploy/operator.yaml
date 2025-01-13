@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: casskube
+  namespace: ""
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: casskube
+  template:
+    metadata:
+      labels:
+        name: casskube
+    spec:
+      serviceAccountName: casskube
+      volumes:
+      - name: tmpconfig-volume
+         emptyDir:
+           medium: "Memory"
+      - name: casskube-certs-volume
+        secret:
+          secretName: casskube-webhook-config
+      containers:
+      - name: casskube
+        image: khulnasoft/casskube:latest
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: casskube-certs-volume
+          readOnly: false
+        - mountPath: /tmp/
+          name: tmpconfig-volume
+          readOnly: false
+        securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        livenessProbe:
+          exec:
+            command:
+            - pgrep
+            - ".*operator"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - stat
+            - "/tmp/operator-sdk-ready"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 1
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: "casskube"
+        - name: SKIP_VALIDATING_WEBHOOK
+          value: "FALSE"

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: casskube
+version: 1.0.0
+description: Helm chart for CassKube.

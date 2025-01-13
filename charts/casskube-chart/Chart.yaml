@@ -1,0 +1,10 @@
+apiVersion: v2
+name: casskube
+version: 1.6.0
+description: Helm chart for CassKube.
+appVersion: 1.6.0
+home: https://github.com/khulnasoft/casskube
+maintainers:
+  - name: Cassandra Operator Team
+    email: casskube@khulnasoft.coom
+    url: https://www.khulnasoft.com/
